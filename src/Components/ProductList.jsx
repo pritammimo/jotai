@@ -63,6 +63,7 @@ const ProductList = () => {
             <p>{product?.description}</p>
             <div className="card-actions justify-end">
               <div className="badge badge-outline">Add to cart</div>
+              <div className="badge badge-outline" onClick={()=>navigate(`/product/${product?.id}`)}>View</div>
               <div className="badge badge-outline">Delete</div>
             </div>
           </div>
