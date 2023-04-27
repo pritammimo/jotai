@@ -4,14 +4,15 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import useSWR from 'swr';
 import { useAtom} from "jotai";
+import { atomWithStorage } from 'jotai/utils';
 import axios from '../axios';
 import {productAtom} from "../store/page";
 const fetcher = url => axios.get(url).then(res => res.data)
+const productStore = atomWithStorage('data', null);
 const ProductList = () => {
   const navigate=useNavigate();
   const { data, error, isLoading } = useSWR('/products', fetcher)
-  const [products,setProducts] = useAtom(productAtom);
-  console.log("pro",products);
+  const [products,setProducts] = useAtom(productStore);
   useEffect(() => {
     if(data!==undefined){
      setProducts(data)

@@ -4,25 +4,22 @@ import MinusIcon from "@heroicons/react/24/outline/MinusIcon";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import useSWR from 'swr';
-import axios from "../axios";
-import { useAtom,atom, useSetAtom} from "jotai";
+import { useAtom,atom} from "jotai";
 import { cartAtom,productAtom} from "../store/page";
+import { atomWithStorage } from "jotai/utils";
 const finalproduct=atom({})
+const productStore = atomWithStorage('data', null);
 const ProductPage = () => {
     let { id } = useParams();
-    console.log("id",id);
     const [item, setitem] = useState(0);
     const [cartvalue,addcart] = useAtom(cartAtom);
-    const [products]=useAtom(productAtom)
+    const [products]=useAtom(productStore)
     const [product,setProduct] = useAtom(finalproduct)
-    console.log("product",product);
     useEffect(() => {
-      if(id !==""){
-        console.log("yes");
+      if(products!==null){
          setProduct(products?.filter((pro)=>pro.id==id)[0])
       }
-    }, [id]);
+    }, [products]);
     const handlecount=(status)=>{
      if(status ==="plus"){
       setitem((prev)=>prev+1)
@@ -46,7 +43,6 @@ const ProductPage = () => {
       }
       addcart(value)
     }
-    console.log("Singlepro",item);
   return (
     <>
     <Navbar/>
