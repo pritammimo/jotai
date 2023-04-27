@@ -1,13 +1,22 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import useSWR from 'swr';
+import { useAtom} from "jotai";
 import axios from '../axios';
+import {productAtom} from "../store/page";
 const fetcher = url => axios.get(url).then(res => res.data)
 const ProductList = () => {
   const navigate=useNavigate();
   const { data, error, isLoading } = useSWR('/products', fetcher)
+  const [products,setProducts] = useAtom(productAtom);
+  console.log("pro",products);
+  useEffect(() => {
+    if(data!==undefined){
+     setProducts(data)
+    }
+  }, [data]);
   return (
     <>
     <Navbar/>
@@ -19,7 +28,7 @@ const ProductList = () => {
     </button>
   </div>
       <div className='grid grid-cols-3'>
-      {data?.map((product)=>(
+      {products?.map((product)=>(
           <div className="card w-96 bg-base-100 shadow-xl m-2" key={product.id}>
           <figure><img src="https://e7.pngegg.com/pngimages/75/649/png-clipart-adidas-shoe-sneakers-women-shoes-purple-white-thumbnail.png" alt="Shoes" /></figure>
           <div className="card-body">
@@ -30,7 +39,6 @@ const ProductList = () => {
             
             <p>{product?.description}</p>
             <div className="card-actions justify-end">
-              <div className="badge badge-outline">Add to cart</div>
               <div className="badge badge-outline" onClick={()=>navigate(`/product/${product?.id}`)}>View</div>
               <div className="badge badge-outline">Delete</div>
             </div>

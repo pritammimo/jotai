@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer';
-
+// import { cartAtom } from "./ProductDescription";
+// import { useAtom } from "jotai";
 const Cart = () => {
   const [cartProduct, setcartProduct] = useState([{
       title: "react-typescript axios-test",
@@ -38,6 +39,8 @@ const Cart = () => {
       id: 21
     }
   ]);
+  // const [cartvalue, setcartvalue] = useAtom(cartAtom);
+  // console.log("cartpro",cartvalue);
   return (
     <>
     <Navbar/>

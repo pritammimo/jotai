@@ -1,8 +1,17 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useAtom} from "jotai";
+import { cartAtom } from "../store/page";
 const Navbar = () => {
     const navigate=useNavigate();
+    const [cartitems] = useAtom(cartAtom);
+     const value=cartitems.reduce((acc, obj) => {
+        return acc + obj.number;
+       }, 0)
+    console.log("cart",value);
+    // const readOnlyAtom = atom((get) => get(cartAtom.reduce((acc, obj) => {
+    //   return acc + obj.number;
+    // }, 0)))
   return (
     <div className="navbar bg-base-100 ">
   <div className="flex-1">
