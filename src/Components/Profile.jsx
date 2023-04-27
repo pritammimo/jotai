@@ -2,10 +2,36 @@ import React,{useState,useEffect} from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { useNavigate } from 'react-router-dom'
+import useSWRMutation from 'swr/mutation'
+import { useForm,useFieldArray } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import { useAtom} from "jotai";
+import { profileAtom} from "../store/page";
+import axios from '../axios'
+
+ 
 
 const Profile = () => {
     const navigate=useNavigate()
     const [password, setpassword] = useState(false);
+    const [profile,setProfile] = useAtom(profileAtom);
+    console.log("profile",profile);
+    const {register,control,handleSubmit,formState,watch,getValues,setValue,setError}=useForm({
+      defaultValues:async()=>{
+        const response = await axios.post(`/signin`, {
+          email: 'jotai@yopmail.com',
+          password: 'Cn@#12345'
+        })
+        const data=await response?.data
+        setProfile(data)
+        return {
+          address: data?.user?.address,
+          email: data?.user?.email,
+          name: data?.user?.name,
+          phone: data?.user?.phone
+        }
+      }
+    });
   return (
     <>
     <Navbar/>
@@ -16,7 +42,11 @@ const Profile = () => {
       <label className="label">
         <span className="label-text">Name</span>
       </label>
-      <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+      <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" 
+      {...register("name",{
+        required:"name is Required"
+     })}
+      />
       <label className="label">
         <span className="label-text-alt">Bottom Left label</span>
       </label>
@@ -25,7 +55,11 @@ const Profile = () => {
       <label className="label">
         <span className="label-text">Email</span>
       </label>
-      <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+      <input type="email" placeholder="Type here" className="input input-bordered w-full max-w-xs" 
+      {...register("email",{
+        required:"email is Required"
+     })}
+      />
       <label className="label">
         <span className="label-text-alt">Bottom Left label</span>
       </label>
@@ -34,7 +68,11 @@ const Profile = () => {
       <label className="label">
         <span className="label-text">Phone</span>
       </label>
-      <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+      <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs"
+      {...register("phone",{
+        required:"phone is Required"
+     })}
+      />
       <label className="label">
         <span className="label-text-alt">Bottom Left label</span>
       </label>
@@ -43,7 +81,11 @@ const Profile = () => {
       <label className="label">
         <span className="label-text">Address</span>
       </label>
-      <textarea className="textarea textarea-bordered h-24" placeholder="Address"></textarea>
+      <textarea className="textarea textarea-bordered h-24" placeholder="Address"
+      {...register("address",{
+        required:"address is Required"
+     })}
+      ></textarea>
       <label className="label">
         <span className="label-text-alt">left label</span>
       </label>
@@ -85,6 +127,7 @@ const Profile = () => {
 
     </div>
     <Footer/>
+    <DevTool control={control}/>
     </>
   )
 }

@@ -16,6 +16,7 @@ export const cartAtom = atom([]);
 export const cartDetailsAtom=atom([])
 export const cartPriceAtom=atom(0);
 export const notificationAtom=atom([])
+export const profileAtom=atom({})
 export const newcartAtom = atom("");
   console.log("cart",cartAtom);
   export const updatecartAtom = atom(
