@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer';
-import { cartDetailsAtom,cartPriceAtom,cartAtom} from "../store/page";
+import { cartDetailsAtom,cartPriceAtom,cartAtom,notificationAtom} from "../store/page";
 import { useAtom } from "jotai";
 import { useNavigate } from 'react-router-dom';
 const Cart = () => {
@@ -10,6 +10,7 @@ const Cart = () => {
   const navigate=useNavigate()
   const [toast, settoast] = useState(false);
     const [cartprice]=useAtom(cartPriceAtom);
+   const [notification,setnotification]= useAtom(notificationAtom)
    console.log("cart",cartprice);
     console.log("cartdetails",cartdetails);
     console.log("cartvalue",cartvalue);
@@ -18,6 +19,11 @@ const Cart = () => {
     removecart(currentcart)
     }
     const handleorder=()=>{
+      let noti=[...notification]
+      noti.push({
+       message:`We Receive a order of ${cartprice}`
+      })
+      setnotification(noti)
      settoast(true)
      removecart([])
      navigate("/")
