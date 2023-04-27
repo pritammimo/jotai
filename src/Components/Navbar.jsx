@@ -31,14 +31,6 @@ const Navbar = () => {
         }
       }, [products,cartitems]);
       
-    console.log("notifi",notification);
-    
-    // console.log("product",products);
-    // console.log("cart",cartitems);
-    // console.log("cartdetails",cartdetails);
-    // const readOnlyAtom = atom((get) => get(cartAtom.reduce((acc, obj) => {
-    //   return acc + obj.number;
-    // }, 0)))
     const handleclear=(i)=>{
       let noti=[...notification]
       noti.splice(i, 1)

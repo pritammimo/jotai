@@ -11,9 +11,6 @@ const Cart = () => {
   const [toast, settoast] = useState(false);
     const [cartprice]=useAtom(cartPriceAtom);
    const [notification,setnotification]= useAtom(notificationAtom)
-   console.log("cart",cartprice);
-    console.log("cartdetails",cartdetails);
-    console.log("cartvalue",cartvalue);
     const handleRemove=(id)=>{
      let currentcart=cartvalue?.filter((product)=>product?.id !=id)
     removecart(currentcart)

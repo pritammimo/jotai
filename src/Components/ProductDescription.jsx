@@ -15,7 +15,6 @@ const ProductPage = () => {
     const [cartvalue,addcart] = useAtom(cartAtom);
     const [products]=useAtom(productStore)
     const [product,setProduct] = useAtom(finalproduct)
-    console.log("choose item",cartvalue?.find((cart)=>cart.id ===id));
     useEffect(() => {
       if(products!==null){
          setProduct(products?.filter((pro)=>pro.id==id)[0])

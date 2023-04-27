@@ -1,15 +1,7 @@
 import { atom } from "jotai";
-// const addCart = (carts,id) => [
-//     ...carts,
-//     {
-//       id
-     
-//     },
-//   ];
 const addCart=(carts,id)=>{
   console.log("cart",carts,id);
 }
-  
   const updateCart = (carts, id) =>
     carts.map((cart) => ({
       ...cart,
