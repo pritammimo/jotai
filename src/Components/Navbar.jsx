@@ -1,14 +1,40 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAtom} from "jotai";
-import { cartAtom } from "../store/page";
+import { cartAtom,cartDetailsAtom,cartPriceAtom} from "../store/page";
+import { atomWithStorage } from "jotai/utils";
+const productStore = atomWithStorage('data', null);
 const Navbar = () => {
     const navigate=useNavigate();
     const [cartitems] = useAtom(cartAtom);
+    const [cartdetails,setcartDetails] = useAtom(cartDetailsAtom);
+    const [cartprice,setcartPrice]=useAtom(cartPriceAtom)
+    const [products]=useAtom(productStore);
      const value=cartitems.reduce((acc, obj) => {
         return acc + obj.number;
        }, 0)
-    console.log("cart",value);
+      
+      useEffect(() => {
+        if(products !==null){
+          const mergedArr = cartitems?.reduce((acc, curr) => {
+            const matchingObj = products?.find(obj => obj.id == curr.id);
+            if (matchingObj) {
+              acc.push({...curr, ...matchingObj});
+            }
+            else {acc=[]}
+            return acc;
+          }, []);
+          setcartDetails(mergedArr)
+          const multipliedAndAdded = mergedArr.reduce((acc, obj) => acc + (obj.number * obj.price), 0);
+          setcartPrice(multipliedAndAdded)
+        }
+      }, [products,cartitems]);
+      
+    console.log("merged",cartprice);
+    
+    console.log("product",products);
+    console.log("cart",cartitems);
+    console.log("cartdetails",cartdetails);
     // const readOnlyAtom = atom((get) => get(cartAtom.reduce((acc, obj) => {
     //   return acc + obj.number;
     // }, 0)))
@@ -37,13 +63,13 @@ const Navbar = () => {
       <label tabIndex={0} className="btn btn-ghost btn-circle">
         <div className="indicator">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-          <span className="badge badge-sm indicator-item">8</span>
+          <span className="badge badge-sm indicator-item">{value}</span>
         </div>
       </label>
       <div tabIndex={0} className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
         <div className="card-body">
-          <span className="font-bold text-lg">8 Items</span>
-          <span className="text-info">Subtotal: $999</span>
+          <span className="font-bold text-lg">{value}Items</span>
+          <span className="text-info">Subtotal: ${cartprice}</span>
           <div className="card-actions">
             <button className="btn btn-primary btn-block" onClick={()=>navigate("/cart")}>View cart</button>
           </div>

@@ -21,7 +21,8 @@ const addCart=(carts,id)=>{
     carts.filter((cart) => cart.id !== id);
 
 export const cartAtom = atom([]);
-export const productAtom=atom([])
+export const cartDetailsAtom=atom([])
+export const cartPriceAtom=atom(0);
 export const newcartAtom = atom("");
   console.log("cart",cartAtom);
   export const updatecartAtom = atom(

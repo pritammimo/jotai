@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useAtom,atom} from "jotai";
-import { cartAtom,productAtom} from "../store/page";
+import { cartAtom} from "../store/page";
 import { atomWithStorage } from "jotai/utils";
 const finalproduct=atom({})
 const productStore = atomWithStorage('data', null);

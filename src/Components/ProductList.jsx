@@ -6,7 +6,6 @@ import useSWR from 'swr';
 import { useAtom} from "jotai";
 import { atomWithStorage } from 'jotai/utils';
 import axios from '../axios';
-import {productAtom} from "../store/page";
 const fetcher = url => axios.get(url).then(res => res.data)
 const productStore = atomWithStorage('data', null);
 const ProductList = () => {
