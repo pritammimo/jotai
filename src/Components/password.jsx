@@ -19,13 +19,10 @@ const Password = () => {
     const {register,control,handleSubmit,formState,watch}=useForm();
     const { trigger, isMutating,data } = useSWRMutation('/api/v1/users/3', sendRequest)
     const {errors,isDirty}=formState
-    console.log('data',data);
     const onSubmit=(data)=>{
-        console.log("dat",data);
         trigger({data,token:profile.accessToken})
         setpassword(false)
        }
-       console.log("err",errors);
   return (
     <form onSubmit={handleSubmit(onSubmit)}
     noValidate>

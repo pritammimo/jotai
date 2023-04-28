@@ -41,7 +41,6 @@ const Profile = () => {
       }
     });
     const {errors,isDirty}=formState
-    console.log("data",data);
     const onSubmit=(data)=>{
       trigger({data,token:profile.accessToken})
      }
